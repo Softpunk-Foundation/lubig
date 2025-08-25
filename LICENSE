@@ -1,21 +1,54 @@
-MIT License
-
-Copyright (c) 2025 GrayDayDev
+MIT+SPL v1.0
+Copyright (c) 2025 Lubi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
+of this software and associated documentation files (the “Software”), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+2. THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+3. ADDITIONAL SOFTPUNK LICENSE (SPL) TERMS
+
+3.1 PURPOSE
+This section supplements the MIT License by adding obligations for traceability, documentation, and preservation of the genealogy of modifications.
+
+3.2 NOTIFICATION OBLIGATION
+Any modification, whether substantial or partial, whether published or not, must be notified to the original author. The notification must include:
+  a) Identification of the base version or commit.
+  b) A concise technical description of the changes.
+  c) The date of the modification.
+
+3.3 DOCUMENTATION OF MODIFICATIONS
+The licensee must produce and retain sufficient documentation to enable a third party to:
+  a) Understand the scope and purpose of the changes.
+  b) Reproduce or reinterpret the modification independently.
+
+3.4 INTEGRATION INTO PROPRIETARY ENVIRONMENTS
+If the modified Software is integrated into a proprietary product:
+  a) The change documentation must be sent to the original author.
+  b) A non‑disclosure agreement (NDA) may be used to protect sensitive information, provided it does not prevent independent reinterpretation of the improvements.
+
+3.5 PRESERVATION OF GENEALOGY
+All modifications are considered part of a living archive. The change history must remain traceable and auditable, even if the code is not public.
+
+3.6 COMPATIBILITY AND NON‑EXCLUSIVITY
+The SPL grants no exclusivity over improvements. Any party may reinterpret documented modifications to create their own implementations.
+
+3.7 RELATIONSHIP WITH BASE LICENSE
+In the event of a conflict between the MIT License and the SPL terms, the more restrictive conditions regarding traceability and documentation shall prevail.
+
+3.8 ACCEPTANCE
+Use, copying, modification, or distribution of the Software implies full acceptance of both the MIT License and the SPL terms.
+
