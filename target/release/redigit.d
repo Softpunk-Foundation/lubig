@@ -1,1 +1,0 @@
-/home/grayday/Escritorio/redigit/target/release/redigit: /home/grayday/Escritorio/redigit/src/actions.rs /home/grayday/Escritorio/redigit/src/conf_panel.rs /home/grayday/Escritorio/redigit/src/main.rs /home/grayday/Escritorio/redigit/src/text_writer.rs
