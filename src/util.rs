@@ -111,18 +111,6 @@ impl LocalStuff{
     }
 }
 impl RemoteStuff {
-    pub fn is_valid_git_url(url: &str) -> bool {
-        let Ok(repo) = Repository::init_bare("/tmp/placeholder_repo") else {
-            println!("Error: Unknown.");
-            return false;
-        };
-        let Ok(mut remote) = repo.remote_anonymous(url) else {
-            println!("Error: Invalid git remote repository url.");
-            return false;
-        };
-        remote.connect(git2::Direction::Fetch).is_ok()
-    }
-
     pub fn pull_fast_forward(path: &str, branch: &str) -> Result<(), git2::Error> {
         let repo = Repository::open(path)?;
 

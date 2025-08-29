@@ -1,17 +1,33 @@
 use git2::Repository;
-use std::{process::Command, path::{Path, PathBuf}};
+use std::{process::{Command,Stdio}, path::{Path, PathBuf}};
 
 use crate::conf::Config;
 use crate::util::{LocalStuff, RemoteStuff};
 
 pub struct Execute;
 impl Execute {
-    pub fn get(url: &str, name: &str) {
-        let config = Config::load_config().unwrap_or_default();
-        let value_to_str = config.get_value("Directories", "sources").unwrap() + "/" + name;
-        let path= Path::new(&value_to_str);
-        Repository::clone(url, path).ok();
-        Self::add(&path, name);
+    pub fn get(url: &String, name: &String) -> Result<(), git2::Error> {
+        let cmd = Config::load_config().unwrap_or_default();
+
+        if let Some(path_str) = cmd.get_value("Directories", "sources") {
+            let final_str = &format!("{}/{}", path_str, name);
+            let path = Path::new(final_str);
+
+            match Repository::clone(url, path) {
+                Ok(_) => {
+                    Self::add(&path, name);
+                    println!("SUCCESS: getting '{}'", name);
+                }
+                Err(e) => {
+                    println!("ERROR:'{}': {}", name, e.message());
+                }
+            }
+
+        } else {
+            eprintln!("Error: Unknown Configuration");
+        }
+
+        Ok(())
     }
 
     pub fn add<P: AsRef<Path>>(path: &P, name: &str) {
@@ -30,6 +46,7 @@ impl Execute {
 
         config.modify_and_save("Added", name, &src_path_str).ok();
         config.modify_and_save("Unlocked", name, "").ok();
+        println!("'{}' Added", name)
     }
 
     pub fn upgrade() {
@@ -50,35 +67,54 @@ impl Execute {
         }
     }
 
-    pub fn build (name: &str) -> std::io::Result<()> {
+    pub fn build(name: &str) -> std::io::Result<()> {
         let mut config = Config::load_config().unwrap_or_default();
         let ext = if cfg!(windows) { ".bat" } else { ".sh" };
-        let src_path = config.get_value("Directories", "sources").unwrap();
-        let mut prog_path = PathBuf::from(config.get_value("Directories", "programs").unwrap());
-        let mut script_path = PathBuf::from(src_path);
-        script_path.push(format!("{}{}", name, ext));
+
+        let src_path = PathBuf::from(config.get_value("Directories", "sources").unwrap());
+        let prog_path = PathBuf::from(config.get_value("Directories", "programs").unwrap()).canonicalize()?;
+        let script_path = src_path.join(format!("{}{}", name, ext));
 
         if !script_path.exists() {
-            return Err(std::io::Error::new(std::io::ErrorKind::NotFound, "Error: Script not found."));
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::NotFound,
+                format!("ERROR: Script not found: {}", script_path.display()),
+            ));
         }
 
+        // Ejecutar script heredando stdout/stderr
         let status = if cfg!(windows) {
             Command::new("cmd")
                 .args(&["/C", script_path.to_str().unwrap(), prog_path.to_str().unwrap()])
+                .stdout(Stdio::inherit())
+                .stderr(Stdio::inherit())
                 .status()?
         } else {
             Command::new("sh")
                 .arg(script_path.to_str().unwrap())
                 .arg(prog_path.to_str().unwrap())
+                .stdout(Stdio::inherit())
+                .stderr(Stdio::inherit())
                 .status()?
         };
 
         if !status.success() {
-            return Err(std::io::Error::new(std::io::ErrorKind::Other, "Error: The script has failed."));
-        } else {
-            prog_path.push(format!("{}{}", name, ext));
-            config.modify_and_save("Build", name, prog_path.to_str().unwrap()).ok();
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::Other,
+                "ERROR: Script failed.",
+            ));
         }
+
+        let artifact_path = prog_path.join(name).join(format!("{}.x86_64", name));
+        if !artifact_path.exists() {
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::NotFound,
+                format!("ERROR: Expected artifact not found: {}", artifact_path.display()),
+            ));
+        }
+
+        config.modify_and_save("Build", name, artifact_path.to_str().unwrap()).ok();
+        println!("SUCCESS: Build complete: {}", artifact_path.display());
 
         Ok(())
     }

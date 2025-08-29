@@ -98,20 +98,6 @@ impl Config {
         }
     }
 
-    pub fn list_keys(&self, section: &str) -> Vec<String> {
-        match section {
-            "Directories" => vec![
-                "sources".to_string(),
-                "profiles".to_string(),
-                "programs".to_string(),
-            ],
-            "Added" => self.added.keys().cloned().collect(),
-            "Unlocked" => self.unlocked.keys().cloned().collect(),
-            "Build" => self.build.keys().cloned().collect(),
-            _ => Vec::new(),
-        }
-    }
-
     pub fn key_exists(&self, section: &str, key: &str) -> bool {
         match section {
             "Directories" => match key {

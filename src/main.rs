@@ -6,7 +6,7 @@ mod func;
 use std::{env, path::Path};
 
 use text::Text;
-use util::{LocalStuff, RemoteStuff};
+use util::LocalStuff;
 use conf::Config;
 use func::Execute;
 
@@ -59,10 +59,6 @@ impl Validate {
     pub fn get(cmd: Vec<String>){
         if !LocalStuff::cmd_len(&cmd, 4) { return; }
 
-        if !RemoteStuff::is_valid_git_url(&cmd[2]) {
-            return;
-        }
-
         let config = Config::load_config().unwrap_or_default();
 
         if config.key_exists("Added", &cmd[3]) {
@@ -70,7 +66,7 @@ impl Validate {
             return;
         }
 
-        Execute::get(&cmd[2], &cmd[3]);
+        Execute::get(&cmd[2], &cmd[3]).ok();
     }
 
     pub fn add(cmd: Vec<String>){
@@ -154,14 +150,17 @@ impl Validate {
             return;
         }
 
-        Execute::build(&cmd[3]).ok();
+        Execute::build(&cmd[2]).ok();
     }
     pub fn list(cmd: Vec<String>){
         if !LocalStuff::cmd_len(&cmd, 2) { return; }
         
         let config = Config::load_config().unwrap_or_default();
         
-        config.list_keys("Added");
+        for key in config.added.keys() {
+
+            println!("{}", key);
+        }
     }
     pub fn status(cmd: Vec<String>){
         if !LocalStuff::cmd_len(&cmd, 3) { return; }
