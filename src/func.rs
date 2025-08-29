@@ -83,7 +83,6 @@ impl Execute {
         Ok(())
     }
 
-
     pub fn remove(name: &str) {
         let mut config = Config::load_config().unwrap_or_default();
         let src_path_str = config.get_value("Added", name).unwrap().to_string();
