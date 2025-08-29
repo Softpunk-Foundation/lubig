@@ -71,32 +71,41 @@ impl Execute {
         let mut config = Config::load_config().unwrap_or_default();
         let ext = if cfg!(windows) { ".bat" } else { ".sh" };
 
-        let src_path = PathBuf::from(config.get_value("Directories", "sources").unwrap());
-        let prog_path = PathBuf::from(config.get_value("Directories", "programs").unwrap()).canonicalize()?;
-        let script_path = src_path.join(format!("{}{}", name, ext));
+        let src_path_str = config.get_value("Directories", "sources").unwrap();
+        let prof_path_str = config.get_value("Directories", "profiles").unwrap();
+        let prog_path_str = config.get_value("Directories", "programs").unwrap();
 
-        if !script_path.exists() {
+        let mut src_path = PathBuf::from(src_path_str);
+        let mut prof_path = PathBuf::from(prof_path_str);
+        let mut prog_path = PathBuf::from(prog_path_str);
+
+        src_path = src_path.join(name);
+        prof_path = prof_path.join(format!("{}{}", name, ext));
+
+        if !prof_path.exists() {
             return Err(std::io::Error::new(
                 std::io::ErrorKind::NotFound,
-                format!("ERROR: Script not found: {}", script_path.display()),
+                format!("ERROR: Script not found: {}", prof_path.display()),
             ));
         }
 
-        // Ejecutar script heredando stdout/stderr
         let status = if cfg!(windows) {
             Command::new("cmd")
-                .args(&["/C", script_path.to_str().unwrap(), prog_path.to_str().unwrap()])
-                .stdout(Stdio::inherit())
-                .stderr(Stdio::inherit())
-                .status()?
+            .args(&["/C", prof_path.to_str().unwrap(), prog_path.to_str().unwrap()])
+            .current_dir(&src_path)
+            .stdout(Stdio::inherit())
+            .stderr(Stdio::inherit())
+            .status()?
         } else {
             Command::new("sh")
-                .arg(script_path.to_str().unwrap())
-                .arg(prog_path.to_str().unwrap())
-                .stdout(Stdio::inherit())
-                .stderr(Stdio::inherit())
-                .status()?
+            .arg(prof_path.to_str().unwrap())
+            .arg(prog_path.to_str().unwrap())
+            .current_dir(&src_path)
+            .stdout(Stdio::inherit())
+            .stderr(Stdio::inherit())
+            .status()?
         };
+
 
         if !status.success() {
             return Err(std::io::Error::new(
@@ -105,16 +114,9 @@ impl Execute {
             ));
         }
 
-        let artifact_path = prog_path.join(name).join(format!("{}.x86_64", name));
-        if !artifact_path.exists() {
-            return Err(std::io::Error::new(
-                std::io::ErrorKind::NotFound,
-                format!("ERROR: Expected artifact not found: {}", artifact_path.display()),
-            ));
-        }
-
-        config.modify_and_save("Build", name, artifact_path.to_str().unwrap()).ok();
-        println!("SUCCESS: Build complete: {}", artifact_path.display());
+        prog_path = prog_path.join(name);
+        config.modify_and_save("Build", name, prog_path.to_str().unwrap()).ok();
+        println!("SUCCESS: Build complete: {}", prog_path.to_str().unwrap());
 
         Ok(())
     }
