@@ -1,2 +1,2 @@
-# redigit
- Posix Builder Package Manager for git repositories 
+# lubig
+ Load, Upgrade & Build Interface for Git repositories.

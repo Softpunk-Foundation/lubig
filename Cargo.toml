@@ -1,6 +1,6 @@
 [package]
-name = "redigit"
-version = "0.1.0"
+name = "lubig"
+version = "1.0.0"
 edition = "2024"
 authors = ["Lubi (Luca Paradisi) <luca.paradisi@proton.me> (2025)"]
 license-file = "LICENSE" 
