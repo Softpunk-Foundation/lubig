@@ -19,9 +19,9 @@ impl Text
         println!("      | Examples:");
         println!("      | lubig lock <registered_repository_name>");
         println!("      | lubig unlock <registered_repository_name> (optional)<repository_branch_line> ('main' by default)");
-        println!("  update: Use it to upgrade every registered and unlocked repository.");
+        println!("  upgrade: Use it to upgrade every registered and unlocked repository.");
         println!("      | Example:");
-        println!("      | lubig update");
+        println!("      | lubig upgrade");
         println!("  build: Use it to compile, build or rebuild a specific registered repository.");
         println!("      | Example:");
         println!("      | lubig build <registered_repository_name>");
