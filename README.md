@@ -66,3 +66,177 @@ Instead, I decided to develop **LUBIG**: a minimal, “fake installer” for Git
   All operations are explicit and logged. Nothing happens without a visible command.
 
 ---
+
+Got it — here’s the **entire LUBIG Users Manual** section, fully in English and clean GitHub‑friendly Markdown, ready to paste into your README with no extra commentary:
+
+```markdown
+## LUBIG Users Manual
+
+### Centralized Configuration
+LUBIG uses a single `config.toml` file to store:
+
+- Working directories (`sources`, `profiles`, `programs`)
+- Registered repositories
+- Lock/unlock state and target branch
+- Associated build scripts
+
+Example `config.toml`:
+```toml
+[Directories]
+sources = "/path"
+profiles = "/path"
+programs = "/path"
+
+[Added]
+repo = "/sources/repo"
+
+[Unlocked]
+repo = "main"
+
+[Build]
+repo = "/profiles/repo"
+```
+
+---
+
+### Commands
+
+#### `conf`
+Configures working directories:
+- **src** → source repositories
+- **prof** → build profiles
+- **prog** → compiled programs
+
+**Examples:**
+```bash
+lubig conf src /home/user/dev/src
+lubig conf prof /home/user/dev/profiles
+lubig conf prog /home/user/dev/programs
+```
+
+---
+
+#### `get`
+Clones a remote Git repository (default branch) and registers it in LUBIG.
+
+- Rejects if the `custom_name` already exists in the registry.
+
+**Example:**
+```bash
+lubig get https://github.com/user/project.git myproject
+```
+
+---
+
+#### `add`
+Registers an already cloned local Git repository.
+
+- Validates that the path is a valid Git repository.
+- Rejects if the name is already registered.
+
+**Example:**
+```bash
+lubig add /home/user/dev/project myproject
+```
+
+---
+
+#### `lock`
+Locks a registered repository against any updates.
+
+- Can only be applied if the repository is currently **unlocked**.
+
+**Example:**
+```bash
+lubig lock myproject
+```
+
+---
+
+#### `unlock`
+Unlocks a repository and optionally sets the target branch for future updates.
+
+- Can be used even if already unlocked.
+- Does not perform an immediate checkout; only changes the target branch for `update`.
+
+**Examples:**
+```bash
+lubig unlock myproject           # uses 'main' by default
+lubig unlock myproject develop   # sets 'develop' as target branch
+```
+
+---
+
+#### `update`
+Updates all unlocked repositories using `git pull --ff-only` toward the branch set with `unlock`.
+
+- Ignores locked repositories.
+- No merges; fast‑forward only.
+
+**Example:**
+```bash
+lubig update
+```
+
+---
+
+#### `build`
+Runs the build script associated with a repository.
+
+- Looks for the script in the `profiles` directory set with `conf prof`.
+- Script name must match the registered name + `.sh` or `.bat`.
+- Creating the folder and placing the script is manual.
+- Fails if no script is found.
+- The only argument passed to the script is the output path for the build.
+
+**Example:**
+```bash
+lubig build myproject
+```
+
+---
+
+#### `remove`
+Removes everything associated with a registered repository:
+1. Build folder
+2. Source folder
+3. Build script
+4. Registry entry
+
+**Example:**
+```bash
+lubig remove myproject
+```
+
+---
+
+#### `list`
+Shows the paths of all registered repositories.
+
+**Example:**
+```bash
+lubig list
+```
+
+---
+
+#### `status`
+Displays:
+- Whether the repository has been built.
+- Whether it is open or closed to updates.
+
+**Example:**
+```bash
+lubig status myproject
+```
+
+---
+
+### Additional Notes
+- Registered names must be unique.
+- Paths set with `conf` are absolute.
+- The `config.toml` file is the single source of truth for state and paths.
+- Build scripts must have the same name as the registered repository plus `.bat` or `.sh` extension.
+```
+
+Do you want me to also prepare a **matching Spanish version** so your README can be bilingual? That way it’s accessible to both audiences.
