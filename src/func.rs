@@ -88,6 +88,11 @@ impl Execute {
         src_path = src_path.join(name);
         prof_path = prof_path.join(format!("{}{}", name, ext));
 
+        if prog_path.join(name).exists()
+        {
+            LocalStuff::delete_dir(prog_path.join(name)).ok();
+        }
+
         let status = Command::new(&prof_path)
         .arg(prog_path.to_str().unwrap())
         .current_dir(&src_path)
