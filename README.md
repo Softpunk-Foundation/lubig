@@ -163,7 +163,7 @@ lubig unlock myproject develop   # sets 'develop' as target branch
 
 ---
 
-#### `update`
+#### `upgrade`
 Updates all unlocked repositories using `git pull --ff-only` toward the branch set with `unlock`.
 
 - Ignores locked repositories.
@@ -171,7 +171,7 @@ Updates all unlocked repositories using `git pull --ff-only` toward the branch s
 
 **Example:**
 ```bash
-lubig update
+lubig upgrade
 ```
 
 ---
