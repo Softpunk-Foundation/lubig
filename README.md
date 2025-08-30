@@ -66,10 +66,6 @@ Instead, I decided to develop **LUBIG**: a minimal, “fake installer” for Git
   All operations are explicit and logged. Nothing happens without a visible command.
 
 ---
-
-Got it — here’s the **entire LUBIG Users Manual** section, fully in English and clean GitHub‑friendly Markdown, ready to paste into your README with no extra commentary:
-
-```markdown
 ## LUBIG Users Manual
 
 ### Centralized Configuration
@@ -237,6 +233,3 @@ lubig status myproject
 - Paths set with `conf` are absolute.
 - The `config.toml` file is the single source of truth for state and paths.
 - Build scripts must have the same name as the registered repository plus `.bat` or `.sh` extension.
-```
-
-Do you want me to also prepare a **matching Spanish version** so your README can be bilingual? That way it’s accessible to both audiences.
