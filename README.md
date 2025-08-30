@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="src/icon/lubig.png" alt="LUBIG Logo" width="200">
+</p>
+
 # LUBIG  
 **Load, Upgrade & Build Interface for Git repositories**
 
