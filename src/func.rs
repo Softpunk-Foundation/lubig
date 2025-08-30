@@ -82,29 +82,12 @@ impl Execute {
         src_path = src_path.join(name);
         prof_path = prof_path.join(format!("{}{}", name, ext));
 
-        if !prof_path.exists() {
-            return Err(std::io::Error::new(
-                std::io::ErrorKind::NotFound,
-                format!("ERROR: Script not found: {}", prof_path.display()),
-            ));
-        }
-
-        let status = if cfg!(windows) {
-            Command::new("cmd")
-            .args(&["/C", prof_path.to_str().unwrap(), prog_path.to_str().unwrap()])
-            .current_dir(&src_path)
-            .stdout(Stdio::inherit())
-            .stderr(Stdio::inherit())
-            .status()?
-        } else {
-            Command::new("sh")
-            .arg(prof_path.to_str().unwrap())
-            .arg(prog_path.to_str().unwrap())
-            .current_dir(&src_path)
-            .stdout(Stdio::inherit())
-            .stderr(Stdio::inherit())
-            .status()?
-        };
+        let status = Command::new(&prof_path)
+        .arg(prog_path.to_str().unwrap())
+        .current_dir(&src_path)
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
+        .status()?;
 
 
         if !status.success() {
