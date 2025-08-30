@@ -16,4 +16,6 @@ Instead, I decided to develop **LUBIG**: a minimal, “fake installer” for Git
 - Where to store their projects
 - How to structure the build process
 - What the final build layout should be
+
+
 **Enjoy it!**
