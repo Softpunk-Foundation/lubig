@@ -43,7 +43,7 @@ Instead, I decided to develop **LUBIG**: a minimal, “fake installer” for Git
 **Enjoy it!**
 
 
-## Features
+## 4. Features
 
 - **Repository Management**  
   Add, list, update, and remove Git repositories from a central configuration.
@@ -66,7 +66,7 @@ Instead, I decided to develop **LUBIG**: a minimal, “fake installer” for Git
   All operations are explicit and logged. Nothing happens without a visible command.
 
 ---
-## LUBIG Users Manual
+## 5. LUBIG Users Manual
 
 ### Centralized Configuration
 LUBIG uses a single `config.toml` file to store:
