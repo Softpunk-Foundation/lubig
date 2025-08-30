@@ -17,8 +17,8 @@ impl Text
         println!("      | lubig add </local/repository/path> <custom_name>");
         println!("  lock/unlock: Use it to lock or unlock updates to a specific registered repository.");
         println!("      | Examples:");
-        println!("      | lubig lock <registered_repository_name> (optional)<repository_branch_line> ('main' by default)");
-        println!("      | lubig unlock <registered_repository_name>");
+        println!("      | lubig lock <registered_repository_name>");
+        println!("      | lubig unlock <registered_repository_name> (optional)<repository_branch_line> ('main' by default)");
         println!("  update: Use it to upgrade every registered and unlocked repository.");
         println!("      | Example:");
         println!("      | lubig update");
