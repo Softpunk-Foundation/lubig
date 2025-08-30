@@ -24,9 +24,9 @@ pub struct Directories {
 impl Default for Directories {
     fn default() -> Self {
         Self {
-            sources: Some("./sources".into()),
-            profiles: Some("./profiles".into()),
-            programs: Some("./programs".into()),
+            sources: Some(exe_path("sources").into()),
+            profiles: Some(exe_path("profiles").into()),
+            programs: Some(exe_path("programs").into()),
         }
     }
 }
@@ -118,6 +118,16 @@ pub fn conf_path() -> PathBuf {
     env::current_exe().unwrap()
         .parent().unwrap()
         .join("config.toml")
+}
+
+pub fn exe_path(sub: &str) -> String {
+    let base_dir: PathBuf = env::current_exe()
+        .unwrap()
+        .parent()
+        .unwrap()
+        .to_path_buf();
+
+    base_dir.join(sub).to_string_lossy().into_owned()
 }
 
 pub fn generate_config() -> std::io::Result<()> {

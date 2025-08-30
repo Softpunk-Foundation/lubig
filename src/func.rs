@@ -1,4 +1,3 @@
-use git2::Repository;
 use std::{process::{Command,Stdio}, path::{Path, PathBuf}};
 
 use crate::conf::Config;
@@ -6,32 +5,41 @@ use crate::util::{LocalStuff, RemoteStuff};
 
 pub struct Execute;
 impl Execute {
-    pub fn get(url: &String, name: &String) -> Result<(), git2::Error> {
+
+    pub fn get(url: &String, name: &String) -> std::io::Result<()> {
         let cmd = Config::load_config().unwrap_or_default();
 
-        if let Some(path_str) = cmd.get_value("Directories", "sources") {
-            let final_str = &format!("{}/{}", path_str, name);
-            let path = Path::new(final_str);
-
-            match Repository::clone(url, path) {
-                Ok(_) => {
-                    Self::add(&path, name);
-                    println!("SUCCESS: getting '{}'", name);
-                }
-                Err(e) => {
-                    println!("ERROR:'{}': {}", name, e.message());
-                }
+        let path_str = match cmd.get_value("Directories", "sources") {
+            Some(p) => p,
+            None => {
+                eprintln!("Error: Unknown Configuration");
+                return Ok(());
             }
+        };
 
+        let final_str = format!("{}/{}", path_str, name);
+        let path = Path::new(&final_str);
+
+        let status = Command::new("git")
+            .arg("clone")
+            .arg(url)
+            .arg(path)
+            .stdout(std::process::Stdio::inherit())
+            .stderr(std::process::Stdio::inherit())
+            .status()?;
+
+        if status.success() {
+            Self::add(&path, name);
+            println!("SUCCESS: getting '{}'", name);
         } else {
-            eprintln!("Error: Unknown Configuration");
+            eprintln!("ERROR: Failed to clone '{}'", name);
         }
 
         Ok(())
     }
 
     pub fn add<P: AsRef<Path>>(path: &P, name: &str) {
-        let config = Config::load_config().unwrap_or_default();
+        let mut config = Config::load_config().unwrap_or_default();
         let src_path_str = config.get_value("Directories", "sources").unwrap() + "/" + name;
         let src_path = Path::new(&src_path_str);
         if !src_path.exists()
@@ -42,10 +50,7 @@ impl Execute {
             LocalStuff::move_dir(&path, src_path).ok();
         }
 
-        let mut config = Config::load_config().unwrap_or_default();
-
         config.modify_and_save("Added", name, &src_path_str).ok();
-        config.modify_and_save("Unlocked", name, "").ok();
         println!("'{}' Added", name)
     }
 
@@ -69,6 +74,7 @@ impl Execute {
 
     pub fn build(name: &str) -> std::io::Result<()> {
         let mut config = Config::load_config().unwrap_or_default();
+        
         let ext = if cfg!(windows) { ".bat" } else { ".sh" };
 
         let src_path_str = config.get_value("Directories", "sources").unwrap();

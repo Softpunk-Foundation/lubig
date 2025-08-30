@@ -58,16 +58,24 @@ impl LocalStuff{
     }
 
     pub fn generate_path<P: AsRef<Path>>(path: P) -> std::io::Result<()> {
-        if !path.as_ref().exists() {
-            fs::create_dir_all(&path)?;
+        let p = path.as_ref();
+
+        if !p.exists() {
+            fs::create_dir_all(p)?;
         }
+
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt;
+            fs::set_permissions(p, fs::Permissions::from_mode(0o755))?;
+        }
+
         Ok(())
     }
 
     pub fn delete_dir<P: AsRef<Path>>(path: P) -> std::io::Result<()> {
         let path_ref = path.as_ref();
 
-        // Sólo actuamos si existe y es un directorio
         if path_ref.exists() && path_ref.is_dir() {
             fs::remove_dir_all(path_ref)?;
         }
@@ -114,16 +122,13 @@ impl RemoteStuff {
     pub fn pull_fast_forward(path: &str, branch: &str) -> Result<(), git2::Error> {
         let repo = Repository::open(path)?;
 
-        // Fetch desde el remoto
         let mut remote = repo.find_remote("origin")?;
         remote.fetch(&[branch], Some(&mut FetchOptions::new()), None)?;
 
-        // Obtener el commit remoto
         let fetch_head = repo.find_reference("FETCH_HEAD")?;
         let fetch_commit = repo.reference_to_annotated_commit(&fetch_head)?;
         let commit = repo.find_commit(fetch_commit.id())?;
 
-        // Checkout directo al commit remoto
         repo.checkout_tree(commit.as_object(), None)?;
         repo.set_head(&format!("refs/heads/{}", branch))?;
 
