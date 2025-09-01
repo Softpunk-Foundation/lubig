@@ -233,3 +233,108 @@ lubig status myproject
 - Paths set with `conf` are absolute.
 - The `config.toml` file is the single source of truth for state and paths.
 - Build scripts must have the same name as the registered repository plus `.bat` or `.sh` extension.
+
+Claro, Luca. Aquí tienes una versión formalizada y estructuralmente legítima de un `README.md` para **LUBIG**, con instrucciones de compilación específicas para Debian, Windows, macOS y Arch Linux. Cada sección está bifurcada por plataforma, sin depender de estado implícito ni convenciones ambiguas.
+
+---
+
+```markdown
+# LUBIG — Load, Upgrade & Build Interface for Git Repositories
+
+LUBIG es un programa escrito enteramente en Rust, diseñado para operar con legitimidad estructural, sin estado implícito ni ambigüedad ontológica. Este documento formaliza el proceso de compilación en entornos limpios y auditables.
+
+---
+
+## Requisitos generales y proceso de compilación.
+
+- [Rust y Cargo](https://www.rust-lang.org/tools/install)
+- Git (para clonar el repositorio)
+- Entorno limpio, sin privilegios implícitos ni rutas relativas ambiguas
+
+---
+
+## Debian / Ubuntu
+
+```bash
+# Instalar dependencias
+sudo apt update
+sudo apt install -y curl git build-essential
+
+# Instalar Rust (incluye cargo)
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source $HOME/.cargo/env
+
+# Clonar y compilar
+git clone https://github.com/<usuario>/lubig.git
+cd lubig
+cargo build --release
+```
+
+> Binario generado en: `./target/release/lubig`
+
+---
+
+## Windows (PowerShell)
+
+```powershell
+# Instalar Rust (incluye cargo)
+Invoke-WebRequest -Uri https://win.rustup.rs -OutFile rustup-init.exe
+Start-Process .\rustup-init.exe -Wait
+
+# Clonar y compilar
+git clone https://github.com/<usuario>/lubig.git
+cd lubig
+cargo build --release
+```
+
+> Binario generado en: `.\target\release\lubig.exe`
+
+---
+
+## macOS
+
+```bash
+# Instalar Xcode CLI tools (si no están presentes)
+xcode-select --install
+
+# Instalar Homebrew (si no está presente)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Instalar Git y Rust
+brew install git
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source $HOME/.cargo/env
+
+# Clonar y compilar
+git clone https://github.com/<usuario>/lubig.git
+cd lubig
+cargo build --release
+```
+
+> Binario generado en: `./target/release/lubig`
+
+---
+
+## Arch Linux
+
+```bash
+# Instalar dependencias
+sudo pacman -Syu --noconfirm
+sudo pacman -S --noconfirm rust git base-devel
+
+# Clonar y compilar
+git clone https://github.com/<usuario>/lubig.git
+cd lubig
+cargo build --release
+```
+
+> Binario generado en: `./target/release/lubig`
+
+---
+
+## Estructura del Proyecto
+
+- `src/` — Módulos fuente
+- `Cargo.toml` — Declaración explícita de nombre, versión y dependencias
+- `target/` — Artefactos de compilación (no versionados)
+- `README.md` — Este documento
