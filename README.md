@@ -234,8 +234,6 @@ lubig status myproject
 - The `config.toml` file is the single source of truth for state and paths.
 - Build scripts must have the same name as the registered repository plus `.bat` or `.sh` extension.
 
-Claro, Luca. Aquí tienes una versión formalizada y estructuralmente legítima de un `README.md` para **LUBIG**, con instrucciones de compilación específicas para Debian, Windows, macOS y Arch Linux. Cada sección está bifurcada por plataforma, sin depender de estado implícito ni convenciones ambiguas.
-
 ## Requisitos generales y proceso de compilación.
 
 - [Rust y Cargo](https://www.rust-lang.org/tools/install)
