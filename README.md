@@ -243,7 +243,7 @@ lubig status myproject
 
 ---
 
-# Debian / Ubuntu
+#### Debian / Ubuntu
 
 ```bash
 # Install dependencies
@@ -264,7 +264,7 @@ cargo build --release
 
 ---
 
-# Windows (PowerShell)
+#### Windows (PowerShell)
 
 ```powershell
 # Install Rust (includes cargo)
@@ -281,7 +281,7 @@ cargo build --release
 
 ---
 
-# MacOS
+#### MacOS
 
 ```bash
 # Install Xcode CLI tools (if not already installed)
@@ -305,7 +305,7 @@ cargo build --release
 
 ---
 
-# Arch Linux
+#### Arch Linux
 
 ```bash
 # Install dependencies
