@@ -234,95 +234,99 @@ lubig status myproject
 - The `config.toml` file is the single source of truth for state and paths.
 - Build scripts must have the same name as the registered repository plus `.bat` or `.sh` extension.
 
-## Requisitos generales y proceso de compilación.
+---
 
-- [Rust y Cargo](https://www.rust-lang.org/tools/install)
-- Git (para clonar el repositorio)
+## General Requirements and Build Process
+
+- [Rust and Cargo](https://www.rust-lang.org/tools/install)  
+- Git (to clone the repository)
 
 ---
 
 ## Debian / Ubuntu
 
 ```bash
-# Instalar dependencias
+# Install dependencies
 sudo apt update
 sudo apt install -y curl git build-essential
 
-# Instalar Rust (incluye cargo)
+# Install Rust (includes cargo)
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source $HOME/.cargo/env
 
-# Clonar y compilar
-git clone https://github.com/<usuario>/lubig.git
+# Clone and build
+git clone https://github.com/<user>/lubig.git
 cd lubig
 cargo build --release
 ```
 
-> Binario generado en: `./target/release/lubig`
+> Binary generated at: `./target/release/lubig`
 
 ---
 
 ## Windows (PowerShell)
 
 ```powershell
-# Instalar Rust (incluye cargo)
+# Install Rust (includes cargo)
 Invoke-WebRequest -Uri https://win.rustup.rs -OutFile rustup-init.exe
 Start-Process .\rustup-init.exe -Wait
 
-# Clonar y compilar
-git clone https://github.com/<usuario>/lubig.git
+# Clone and build
+git clone https://github.com/<user>/lubig.git
 cd lubig
 cargo build --release
 ```
 
-> Binario generado en: `.\target\release\lubig.exe`
+> Binary generated at: `.\target\release\lubig.exe`
 
 ---
 
 ## MacOS
 
 ```bash
-# Instalar Xcode CLI tools (si no están presentes)
+# Install Xcode CLI tools (if not already installed)
 xcode-select --install
 
-# Instalar Homebrew (si no está presente)
+# Install Homebrew (if not already installed)
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Instalar Git y Rust
+# Install Git and Rust
 brew install git
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source $HOME/.cargo/env
 
-# Clonar y compilar
-git clone https://github.com/<usuario>/lubig.git
+# Clone and build
+git clone https://github.com/<user>/lubig.git
 cd lubig
 cargo build --release
 ```
 
-> Binario generado en: `./target/release/lubig`
+> Binary generated at: `./target/release/lubig`
 
 ---
 
 ## Arch Linux
 
 ```bash
-# Instalar dependencias
+# Install dependencies
 sudo pacman -Syu --noconfirm
 sudo pacman -S --noconfirm rust git base-devel
 
-# Clonar y compilar
-git clone https://github.com/<usuario>/lubig.git
+# Clone and build
+git clone https://github.com/<user>/lubig.git
 cd lubig
 cargo build --release
 ```
 
-> Binario generado en: `./target/release/lubig`
+> Binary generated at: `./target/release/lubig`
 
 ---
 
-## Estructura del Proyecto
+## Project Structure
 
-- `src/` — Módulos fuente
-- `Cargo.toml` — Declaración explícita de nombre, versión y dependencias
-- `target/` — Artefactos de compilación (no versionados)
-- `README.md` — Este documento
+- `src/` — Source modules  
+- `Cargo.toml` — Explicit declaration of name, version, and dependencies  
+- `target/` — Build artifacts (not versioned)  
+- `README.md` — This document
+
+---
