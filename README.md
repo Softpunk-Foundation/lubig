@@ -236,20 +236,10 @@ lubig status myproject
 
 Claro, Luca. Aquí tienes una versión formalizada y estructuralmente legítima de un `README.md` para **LUBIG**, con instrucciones de compilación específicas para Debian, Windows, macOS y Arch Linux. Cada sección está bifurcada por plataforma, sin depender de estado implícito ni convenciones ambiguas.
 
----
-
-```markdown
-# LUBIG — Load, Upgrade & Build Interface for Git Repositories
-
-LUBIG es un programa escrito enteramente en Rust, diseñado para operar con legitimidad estructural, sin estado implícito ni ambigüedad ontológica. Este documento formaliza el proceso de compilación en entornos limpios y auditables.
-
----
-
 ## Requisitos generales y proceso de compilación.
 
 - [Rust y Cargo](https://www.rust-lang.org/tools/install)
 - Git (para clonar el repositorio)
-- Entorno limpio, sin privilegios implícitos ni rutas relativas ambiguas
 
 ---
 
@@ -291,7 +281,7 @@ cargo build --release
 
 ---
 
-## macOS
+## MacOS
 
 ```bash
 # Instalar Xcode CLI tools (si no están presentes)
