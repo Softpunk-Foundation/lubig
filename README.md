@@ -330,7 +330,7 @@ cargo build --release
 - `README.md` — This document
 
 ---
-# Version and Pendings
+# Version and To‑Do
 ## LUBIG — Load, Upgrade & Build Interface for Git Repositories
 
 **Version:** 1.0.0  
