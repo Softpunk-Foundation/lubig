@@ -330,3 +330,107 @@ cargo build --release
 - `README.md` — This document
 
 ---
+# Version and Pendings
+## LUBIG — Load, Upgrade & Build Interface for Git Repositories
+
+**Version:** 1.0.0  
+**Language:** Rust  
+**License:** [MIT + Softpunk License (SPL)](./LICENSE.md)  
+**Architecture:** Modular — `conf`, `main`, `func`, `text`, `util`
+
+---
+
+### 📖 Overview
+
+LUBIG is a command-line interface for managing Git repositories with **reversibility**, **auditability**, and **symbolic hygiene** as core principles.  
+It enables you to:
+
+- Register repositories (local or remote)
+- Lock/unlock them for updates
+- Upgrade unlocked repositories
+- Build artifacts from registered sources
+- Remove repositories and their builds
+- List and inspect repository status
+
+---
+
+### 🛠 Architecture
+
+| Module   | Responsibility |
+|----------|----------------|
+| `conf.rs` | Persistent configuration management (`config.toml`) |
+| `main.rs` | CLI entry point and command validation |
+| `func.rs` | Core operations: get, add, upgrade, build, remove |
+| `text.rs` | Centralized user-facing messages and help text |
+| `util.rs` | Local filesystem and remote Git utilities |
+
+---
+
+### ✅ Strengths in v1.0.0
+
+- **Clean modular design** — clear separation of responsibilities.
+- **Single source of truth** — `config.toml` stores all state.
+- **Atomic, reversible operators** — each command has a single, auditable purpose.
+- **Centralized messaging** — consistent user communication.
+- **Controlled Git integration** — encapsulated in `RemoteStuff` and `Execute`.
+
+---
+
+### ⚠ Known Limitations
+
+1. **Unnecessary dependency on `Directories.sources`**  
+   - Some operations rebuild repository paths from the `sources` directory instead of using the exact path stored in `Added`.  
+   - This reduces flexibility and breaks traceability if repositories are moved or registered outside `sources`.
+
+2. **Error handling**  
+   - Frequent use of `.unwrap()` and `.ok()` can hide failures or cause uncontrolled panics.
+
+3. **No structured logging**  
+   - Operations are not recorded with timestamps or contextual metadata.
+
+4. **No automated tests**  
+   - No unit or integration tests to validate operator behavior.
+
+---
+
+### 🚀 Planned Improvements for v1.1.0
+
+### Goals
+- Increase versatility by removing implicit dependencies.
+- Improve robustness with better error handling.
+- Enhance auditability with structured logging.
+- Ensure quality with automated testing.
+
+### Changes
+1. **Consistent use of registered paths**  
+   - Replace `Directories.sources + name` with `config.get_value("Added", name)` in all relevant operations.
+
+2. **Robust error handling**  
+   - Replace `.unwrap()` with `?` or explicit error handling.
+   - Avoid silent `.ok()` calls in critical paths.
+
+3. **Structured logging**  
+   - Implement logging (e.g., `log` + `env_logger` or `tracing`) to record:
+     - Command executed
+     - Timestamp
+     - Result (success/failure)
+     - Error messages
+
+4. **Automated tests**  
+   - Unit tests for pure functions (`conf`, `util`).
+   - Integration tests for full command flows.
+
+5. **Expanded documentation**  
+   - README with architecture overview, usage examples, and links to the Manifesto and SPL.
+   - Command flow diagrams.
+
+### 📅 Expected Impact
+
+- **Versatility** — repositories can reside anywhere without breaking workflows.
+- **Reliability** — fewer unexpected failures and clearer error messages.
+- **Auditability** — verifiable history of all operations.
+- **Collaboration** — solid base for external contributions without breaking principles.
+
+---
+
+> LUBIG is not just a tool — it is an operational grammar for legitimate, traceable, and autonomous software management.
